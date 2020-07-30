@@ -72,53 +72,53 @@
 
         <el-button class="thirdparty-button" type="primary" @click="showDialog=true">Or connect with</el-button>
       </div>-->
-      <div >
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width:100%;margin-bottom:30px;center"
-        @click="dialogFormVisible = true"
-      >Registry</el-button>
-      <el-dialog
-        title="注册新账号"
-        :visible.sync="dialogFormVisible"
-        style="width:1200px;    position: fixed;margin-left: 20%;"
-      >
-        <el-form :model="registryForm" >
-          <el-form-item class="haha" label="用户名" :label-width="formLabelWidth">
-            <el-input
-              class="input1"
-              v-model="registryForm.username"
-              autocomplete="off"
-              placeholder="请输入内容"
-              style="color:#ffffff"
-            ></el-input>
-          </el-form-item>
-          <el-form-item class="haha" label="密码" :label-width="formLabelWidth">
-            <el-input
-              class="input1"
-              v-model="registryForm.password"
-              autocomplete="off"
-              placeholder="请输入密码"
-            ></el-input>
-          </el-form-item>
-          <el-form-item class="haha" label="密保问题" :label-width="formLabelWidth">
-            <el-input
-              class="input1"
-              v-model="registryForm.color"
-              autocomplete="off"
-              placeholder="喜欢什么颜色?"
-            ></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="handRegistry">确 定</el-button>
-        </div>
-      </el-dialog>
-    </div>
+      <div>
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;margin-bottom:30px;center"
+          @click="dialogFormVisible = true"
+        >Registry</el-button>
+        <el-dialog
+          title="注册新账号"
+          :visible.sync="dialogFormVisible"
+          style="width:1200px;    position: fixed;margin-left: 20%;"
+        >
+          <el-form :model="registryForm" :rules="registryRules" ref="registryForm">
+            <el-form-item class="haha" label="用户名" :label-width="formLabelWidth">
+              <el-input
+                class="input1"
+                v-model="registryForm.username"
+                autocomplete="off"
+                placeholder="请输入内容"
+              ></el-input>
+            </el-form-item>
+            <el-form-item class="haha" label="密码" :label-width="formLabelWidth">
+              <el-input
+                class="input1"
+                v-model="registryForm.password"
+                autocomplete="off"
+                placeholder="请输入密码"
+                type="password"
+              ></el-input>
+            </el-form-item>
+            <el-form-item class="haha" label="密保问题" :label-width="formLabelWidth">
+              <el-input
+                class="input1"
+                v-model="registryForm.color"
+                autocomplete="off"
+                placeholder="喜欢什么颜色?"
+              ></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="handRegistry">确 定</el-button>
+          </div>
+        </el-dialog>
+      </div>
     </el-form>
-    
+
     <!-- <el-dialog title="Or connect with" :visible.sync="showDialog">
       Can not be simulated on local, so please combine you own business simulation! ! !
       <br />
@@ -156,7 +156,7 @@ export default {
     return {
       dialogFormVisible: false,
       loginForm: {
-        username: "admin ",
+        username: "admin",
         password: 1234567,
       },
       registryForm: {
@@ -166,6 +166,14 @@ export default {
       },
       formLabelWidth: "80px",
       loginRules: {
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
+      },
+      registryRules: {
         username: [
           { required: true, trigger: "blur", validator: validateUsername },
         ],
@@ -223,17 +231,29 @@ export default {
       });
     },
     handRegistry() {
-      resgitryUser({
-        username: this.registryForm.username,
-        password: this.registryForm.password,
-        color: this.registryForm.color,
-      }).then((res) => {
-        Message({
-          message: "注册成功",
-          type: "success",
-          duration: 5 * 1000,
+      if (
+        validUsername(this.registryForm.username) &&
+        this.registryForm.password.length < 6
+      ) {
+        resgitryUser({
+          username: this.registryForm.username,
+          password: this.registryForm.password,
+          color: this.registryForm.color,
+        }).then((res) => {
+          this.dialogFormVisible = false;
+          Message({
+            message: "注册成功",
+            type: "success",
+            duration: 3 * 1000,
+          });
         });
-      });
+      } else {
+        Message({
+          message: "用户名或密码格式错误",
+          type: "error",
+          duration: 3 * 1000,
+        });
+      }
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
@@ -296,7 +316,7 @@ $light_gray: #fff;
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+  .login-container .el-input:not(.input1) input:not {
     color: $cursor;
   }
 }

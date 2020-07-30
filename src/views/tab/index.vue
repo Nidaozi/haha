@@ -63,6 +63,9 @@
             <div>
               <el-button type="text" size="small" @click="delectFile(scope.$index,scope.row)">删除</el-button>
             </div>
+            <div>
+              <el-button type="text" size="small" @click="renameFile(scope.$index,scope.row)">重命名</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -87,6 +90,7 @@ import {
   makeDirector,
   download,
   delect,
+  renameResources,
 } from "@/api/hadoop";
 import { Message } from "element-ui";
 export default {
@@ -153,19 +157,53 @@ export default {
       console.log(file, fileList);
     },
     handleFileSuccess(file, fileList) {
-      console.log(fileList);
-      console.log(this.$refs.upload);
+      this.onSubmit();
       this.$refs.upload.clearFiles();
     },
     handlePreview(file) {
       console.log(file);
+    },
+    renameFile(index, row) {
+      this.$prompt("请输入目录名", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^(\w+\/?)+$/,
+        inputErrorMessage: "目录格式不正确",
+      })
+        .then(({ value }) => {
+          renameResources({
+            newFileName: this.searchPath.pathName + "/" + value,
+            oldFileName: this.tableData[index].path,
+          });
+          console.log(this.searchPath.pathName + "/" + value);
+
+          Message({
+            message: "成功更改目录名",
+            type: "success",
+            duration: 3 * 1000,
+          });
+          if (
+            this.searchPath.pathName.lastIndexOf("/") !=
+            this.searchPath.pathName.length - 1
+          ) {
+            this.tableData[index].path = this.searchPath.pathName + "/" + value;
+          } else {
+            this.tableData[index].path = this.searchPath.pathName + value;
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消输入",
+          });
+        });
     },
     delectFile(index, row) {
       delect({ pathName: row.path }).then((response) => {
         Message({
           message: "删除成功",
           type: "success",
-          duration: 5 * 1000,
+          duration: 3 * 1000,
         });
         console.log(index);
         this.tableData.splice(index, 1);
@@ -185,7 +223,7 @@ export default {
           Message({
             message: "成功创建目录",
             type: "success",
-            duration: 5 * 1000,
+            duration: 3 * 1000,
           });
 
           this.onSubmit();
@@ -243,7 +281,7 @@ export default {
         Message({
           message: "路径不可返回",
           type: "error",
-          duration: 5 * 1000,
+          duration: 3 * 1000,
         });
       }
       if (this.searchPath.pathName == "") {

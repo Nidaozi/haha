@@ -37,6 +37,13 @@ export function loginUser(query) {
     params: query,
   })
 }
+export function renameResources(query) {
+  return request({
+    url: '/api/hdfs/resources/rename',
+    method: 'get',
+    params: query,
+  })
+}
 
 export function resgitryUser(query) {
   return request({

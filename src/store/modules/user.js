@@ -38,9 +38,10 @@ const actions = {
         const { data } = response
         console.log(1111)
 
-        commit('SET_TOKEN', "hello world")
+        const { token} = data
+        commit('SET_TOKEN', token)
 
-        setToken("hello world")
+        setToken(token) 
         resolve()
       }).catch(error => {
         reject(error)
@@ -116,6 +117,7 @@ const actions = {
     const token = role + '-token'
 
     commit('SET_TOKEN', token)
+    console.log(token)
     setToken(token)
 
     const { roles } = await dispatch('getInfo')

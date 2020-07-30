@@ -52,3 +52,13 @@ export function resgitryUser(query) {
     params: query,
   })
 }
+
+
+export function getProfile(query) {
+  return request({
+    url: '/api/user/profile',
+    method: 'get',
+    params: query,
+    
+  })
+}

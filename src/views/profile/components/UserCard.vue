@@ -1,7 +1,7 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>关于项目</span>
     </div>
 
     <div class="user-profile">
@@ -19,31 +19,31 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>项目类型</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+            云盘项目
           </div>
         </div>
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Skills</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>使用技能</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>
             <el-progress :percentage="70" />
           </div>
           <div class="progress-item">
-            <span>JavaScript</span>
-            <el-progress :percentage="18" />
+            <span>JAVA</span>
+            <el-progress :percentage="90" />
           </div>
           <div class="progress-item">
-            <span>Css</span>
-            <el-progress :percentage="12" />
+            <span>Mysql</span>
+            <el-progress :percentage="40" />
           </div>
           <div class="progress-item">
-            <span>ESLint</span>
+            <span>Hadoop</span>
             <el-progress :percentage="100" status="success" />
           </div>
         </div>

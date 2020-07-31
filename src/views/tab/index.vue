@@ -66,6 +66,9 @@
             <div>
               <el-button type="text" size="small" @click="renameFile(scope.$index,scope.row)">重命名</el-button>
             </div>
+            <div>
+              <el-button type="text" size="small" @click="collect(scope.$index,scope.row)">收藏</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -91,8 +94,10 @@ import {
   download,
   delect,
   renameResources,
+  collectPath,
 } from "@/api/hadoop";
 import { Message } from "element-ui";
+import { getToken } from "../../utils/auth";
 export default {
   name: "Tab",
   components: { TabPane },
@@ -131,6 +136,25 @@ export default {
     });
   },
   methods: {
+    collect(index, row) {
+      let id = getToken();
+      console.log(row);
+      collectPath({ userId: id, path: row.path })
+        .then(
+          Message({
+            message: "收藏成功",
+            type: "success",
+            duration: 3 * 1000,
+          })
+        )
+        .catch((err) => {
+          Message({
+            message: "收藏失败,重复收藏"|err.data,
+            type: "error",
+            duration: 3 * 1000,
+          });
+        });
+    },
     tableRowClassName({ row, rowIndex }) {
       if (row.type == "文件夹") {
         return "warning-row";

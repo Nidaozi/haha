@@ -62,11 +62,27 @@ export function getProfile(query) {
     
   })
 }
+export function postProfile(query) {
+  return request({
+    url: '/api/user/profile',
+    method: 'post',
+    params: query,
+    
+  })
+}
 
 export function rePasswordByColor(query) {
   return request({
     url: '/api/hdfs/login/rePasswordByColor',
     method: 'get',
+    params: query,
+    
+  })
+}
+export function collectPath(query) {
+  return request({
+    url: '/api/user/collectPath',
+    method: 'post',
     params: query,
     
   })

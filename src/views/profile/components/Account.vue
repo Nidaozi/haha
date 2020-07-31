@@ -7,7 +7,11 @@
       <el-input v-model.trim="user.email" />
     </el-form-item>
     <el-form-item label="Sex">
-      <el-input v-model.trim="user.sex" />
+      <!-- <el-input v-model.trim="user.sex" /> -->
+      <template>
+      <el-radio v-model="user.sex" label="0">男</el-radio>
+      <el-radio v-model="user.sex" label="1">女</el-radio>
+      </template>
     </el-form-item>
     <el-form-item label="Descript">
       <el-input v-model.trim="user.descript" />
@@ -20,36 +24,45 @@
 
 <script>
 import { getToken, setToken, removeToken } from "@/utils/auth";
-import { getProfile, resgitryUser } from "@/api/hadoop";
+import { getProfile, postProfile } from "@/api/hadoop";
 
 export default {
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: "",
-          email: "",
-          sex: true,
-          descript: "",
-        };
+  data() {
+    return {
+      user: {
+        name: "123",
+        email: "",
+        sex: 0,
+        descript: "",
       },
-    },
+    };
   },
+
   created() {
     let id = getToken();
     getProfile({ token: id }).then((res) => {
       console.log(res);
+      this.user = res.data;
+      this.user.sex = this.user.sex==true?1:0
+      console.log(this.user.sex)
     });
   },
   methods: {
     submit() {
       console.log(getToken());
-      this.$message({
-        message: "User information has been updated successfully",
+      let id = getToken();
+      postProfile({
+        token: id,
+        name: this.user.name,
+        email: this.user.email,
+        sex: this.user.sex,
+        descript: this.user.descript,
+      }).then(this.$message({
+        message: "修改成功",
         type: "success",
-        duration: 5 * 1000,
-      });
+        duration: 2 * 1000,
+      }));
+      
     },
   },
 };

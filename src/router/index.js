@@ -234,18 +234,18 @@ export const asyncRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/tab',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/tab/index'),
-  //       name: 'Tab',
-  //       meta: { title: '回收站', icon: 'tab' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/profile',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/profile/index'),
+        name: 'Tab',
+        meta: { title: '个人信息', icon: 'documentation' }
+      }
+    ]
+  },
   // {
   //   path: '/error',
   //   component: Layout,

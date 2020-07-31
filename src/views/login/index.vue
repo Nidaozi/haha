@@ -84,10 +84,7 @@
           @click="repasswordFormVisible = true"
         >RePassword</el-button>
 
-        <el-dialog
-          title="注册新账号"
-          :visible.sync="dialogFormVisible"
-        >
+        <el-dialog title="注册新账号" :visible.sync="dialogFormVisible">
           <el-form :model="registryForm">
             <el-form-item class="haha" label="用户名" :label-width="formLabelWidth">
               <el-input
@@ -121,11 +118,8 @@
           </div>
         </el-dialog>
 
-        <el-dialog
-          title="更改密码"
-          :visible.sync="repasswordFormVisible"
-        >
-          <el-form :model="rePasswordForm" :label-position="right"	:label-width="auto">
+        <el-dialog title="更改密码" :visible.sync="repasswordFormVisible">
+          <el-form :model="rePasswordForm"  >
             <el-form-item class="haha" label="用户名" :label-width="formLabelWidth">
               <el-input
                 class="input1"
@@ -267,13 +261,14 @@ export default {
         userName: this.rePasswordForm.username,
         color: this.rePasswordForm.color,
         newPassword: this.rePasswordForm.newpassword,
-      }).then((res) => {
+      })
+        .then((res) => {
           Message({
             message: "更改成功",
             type: "success",
             duration: 3 * 1000,
           });
-          repasswordFormVisible=false;
+          repasswordFormVisible = false;
         })
         .catch((err) => {
           Message({
@@ -298,6 +293,29 @@ export default {
       });
     },
     handRegistry() {
+      // if (
+      //   validUsername(this.registryForm.username) &&
+      //   this.registryForm.password.length > 6
+      // ) {
+      //   resgitryUser({
+      //     username: this.registryForm.username,
+      //     password: this.registryForm.password,
+      //     color: this.registryForm.color,
+      //   }).then((res) => {
+      //     this.dialogFormVisible = false;
+      //     Message({
+      //       message: "注册成功",
+      //       type: "success",
+      //       duration: 3 * 1000,
+      //     });
+      //   });
+      // } else {
+      //   Message({
+      //     message: "用户名或密码格式错误",
+      //     type: "error",
+      //     duration: 3 * 1000,
+      //   });
+      // }
       if (
         validUsername(this.registryForm.username) &&
         this.registryForm.password.length > 6
@@ -314,9 +332,15 @@ export default {
             duration: 3 * 1000,
           });
         });
-      } else {
+      } else if (!validUsername(this.registryForm.username)) {
         Message({
-          message: "用户名或密码格式错误",
+          message: "用户名格式错误错误",
+          type: "error",
+          duration: 3 * 1000,
+        });
+      } else if (this.registryForm.password.length <= 6) {
+        Message({
+          message: "密码必须大于六位",
           type: "error",
           duration: 3 * 1000,
         });
@@ -411,23 +435,23 @@ $cursor: #fff;
       }
     }
   }
- .el-dialog{
-            display: flex;
-            flex-direction: column;
-            margin:0 !important;
-            position:absolute;
-            top:30%;
-            left:50%;
-            transform:translate(-50%,-50%);
-            /*height:600px;*/
-            // max-height:calc(50%);
-            // max-width:calc(50%);
-            width:40%
-        }
-        .el-dialog .el-dialog__body{
-            flex:1;
-            overflow: auto;
-        }
+  .el-dialog {
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*height:600px;*/
+    // max-height:calc(50%);
+    // max-width:calc(50%);
+    width: 40%;
+  }
+  .el-dialog .el-dialog__body {
+    flex: 1;
+    overflow: auto;
+  }
   .el-form-item:not(.haha) {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);

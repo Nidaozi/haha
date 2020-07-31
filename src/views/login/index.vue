@@ -51,15 +51,6 @@
         </el-form-item>
       </el-tooltip>
 
-      <div>
-        <el-button
-          :loading="loading"
-          type="primary"
-          style="width:100%;margin-bottom:30px;"
-          @click.native.prevent="handleLogin"
-        >Login</el-button>
-      </div>
-
       <!-- <div style="position:relative">
         <div class="tips">
           <span>Username : admin</span>
@@ -76,15 +67,28 @@
         <el-button
           :loading="loading"
           type="primary"
-          style="width:100%;margin-bottom:30px;center"
+          style="width:31.5%;margin-bottom:30px;"
+          @click.native.prevent="handleLogin"
+        >Login</el-button>
+
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:31.5%;margin-bottom:30px;center"
           @click="dialogFormVisible = true"
         >Registry</el-button>
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:31.5%;margin-bottom:30px;"
+          @click="repasswordFormVisible = true"
+        >RePassword</el-button>
+
         <el-dialog
           title="注册新账号"
           :visible.sync="dialogFormVisible"
-          style="width:1200px;    position: fixed;margin-left: 20%;"
         >
-          <el-form :model="registryForm" :rules="registryRules" ref="registryForm">
+          <el-form :model="registryForm">
             <el-form-item class="haha" label="用户名" :label-width="formLabelWidth">
               <el-input
                 class="input1"
@@ -116,6 +120,42 @@
             <el-button type="primary" @click="handRegistry">确 定</el-button>
           </div>
         </el-dialog>
+
+        <el-dialog
+          title="更改密码"
+          :visible.sync="repasswordFormVisible"
+        >
+          <el-form :model="rePasswordForm" :label-position="right"	:label-width="auto">
+            <el-form-item class="haha" label="用户名" :label-width="formLabelWidth">
+              <el-input
+                class="input1"
+                v-model="rePasswordForm.username"
+                autocomplete="off"
+                placeholder="用户名"
+              ></el-input>
+            </el-form-item>
+            <el-form-item class="haha" label="密保问题" :label-width="formLabelWidth">
+              <el-input
+                class="input1"
+                v-model="rePasswordForm.color"
+                autocomplete="off"
+                placeholder="喜欢的颜色"
+              ></el-input>
+            </el-form-item>
+            <el-form-item class="haha" label="新密码" :label-width="formLabelWidth">
+              <el-input
+                class="input1"
+                v-model="rePasswordForm.newpassword"
+                autocomplete="off"
+                placeholder="旧密码"
+              ></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="repasswordFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="handlePassword">确 定</el-button>
+          </div>
+        </el-dialog>
       </div>
     </el-form>
 
@@ -133,7 +173,7 @@
 import { validUsername } from "@/utils/validate";
 import SocialSign from "./components/SocialSignin";
 import { Message } from "element-ui";
-import { resgitryUser } from "@/api/hadoop";
+import { resgitryUser, rePasswordByColor } from "@/api/hadoop";
 
 export default {
   name: "Login",
@@ -155,6 +195,7 @@ export default {
     };
     return {
       dialogFormVisible: false,
+      repasswordFormVisible: false,
       loginForm: {
         username: "admin",
         password: 1234567,
@@ -164,7 +205,12 @@ export default {
         password: "",
         color: "",
       },
-      formLabelWidth: "80px",
+      rePasswordForm: {
+        username: "",
+        color: "",
+        newpassword: "",
+      },
+      formLabelWidth: "30%",
       loginRules: {
         username: [
           { required: true, trigger: "blur", validator: validateUsername },
@@ -216,6 +262,27 @@ export default {
   },
 
   methods: {
+    handlePassword() {
+      rePasswordByColor({
+        userName: this.rePasswordForm.username,
+        color: this.rePasswordForm.color,
+        newPassword: this.rePasswordForm.newpassword,
+      }).then((res) => {
+          Message({
+            message: "更改成功",
+            type: "success",
+            duration: 3 * 1000,
+          });
+          repasswordFormVisible=false;
+        })
+        .catch((err) => {
+          Message({
+            message: "用户名密码错误" | err.data.msg,
+            type: "error",
+            duration: 3 * 1000,
+          });
+        });
+    },
     checkCapslock(e) {
       const { key } = e;
       this.capsTooltip = key && key.length === 1 && key >= "A" && key <= "Z";
@@ -233,7 +300,7 @@ export default {
     handRegistry() {
       if (
         validUsername(this.registryForm.username) &&
-        this.registryForm.password.length < 6
+        this.registryForm.password.length > 6
       ) {
         resgitryUser({
           username: this.registryForm.username,
@@ -344,7 +411,23 @@ $cursor: #fff;
       }
     }
   }
-
+ .el-dialog{
+            display: flex;
+            flex-direction: column;
+            margin:0 !important;
+            position:absolute;
+            top:30%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            /*height:600px;*/
+            // max-height:calc(50%);
+            // max-width:calc(50%);
+            width:40%
+        }
+        .el-dialog .el-dialog__body{
+            flex:1;
+            overflow: auto;
+        }
   .el-form-item:not(.haha) {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);

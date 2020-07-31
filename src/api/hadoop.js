@@ -62,3 +62,12 @@ export function getProfile(query) {
     
   })
 }
+
+export function rePasswordByColor(query) {
+  return request({
+    url: '/api/hdfs/login/rePasswordByColor',
+    method: 'get',
+    params: query,
+    
+  })
+}

@@ -87,3 +87,26 @@ export function collectPath(query) {
     
   })
 }
+export function getcollectPath(query) {
+  return request({
+    url: '/api/user/collect',
+    method: 'get',
+    params: query,
+    
+  })
+}
+export function search(query) {
+  return request({
+    url: '/api/user/search',
+    method: 'get',
+    params: query,
+    
+  })
+}
+export function delectPath(query) {
+  return request({
+    url: '/api/user/delectPath',
+    method: 'delete',
+    params: query,
+  })
+}

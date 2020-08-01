@@ -1,5 +1,5 @@
 module.exports = {
-  title: '龚小文云盘',
+  title: '小文云盘',
 
   /**
    * @type {boolean} true | false

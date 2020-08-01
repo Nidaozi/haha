@@ -17,7 +17,7 @@ import router from './router'
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
-
+import VueParticles from 'vue-particles'  
 import * as filters from './filters' // global filters
 
 /**
@@ -32,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
+Vue.use(VueParticles)  
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size

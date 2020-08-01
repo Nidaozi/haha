@@ -9,8 +9,8 @@
     <el-form-item label="Sex">
       <!-- <el-input v-model.trim="user.sex" /> -->
       <template>
-      <el-radio v-model="user.sex" label="0">男</el-radio>
-      <el-radio v-model="user.sex" label="1">女</el-radio>
+      <el-radio v-model="user.sex"    label="0">男</el-radio>
+      <el-radio v-model="user.sex"   label="1">女</el-radio>
       </template>
     </el-form-item>
     <el-form-item label="Descript">
@@ -43,7 +43,7 @@ export default {
     getProfile({ token: id }).then((res) => {
       console.log(res);
       this.user = res.data;
-      this.user.sex = this.user.sex==true?1:0
+      this.user.sex = this.user.sex==true?'1':'0'
       console.log(this.user.sex)
     });
   },

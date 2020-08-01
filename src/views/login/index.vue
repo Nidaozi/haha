@@ -1,5 +1,26 @@
-<template>
-  <div class="login-container">
+<template >
+  <div class="login-container" >
+    
+<vue-particles
+        color="#fff"
+        :particleOpacity="0.7"
+        :particlesNumber="60"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#fff"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="150"
+        :moveSpeed="2"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+        class="lizi"
+      >
+    </vue-particles>
+
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -8,7 +29,8 @@
       autocomplete="on"
       label-position="left"
     >
-      <div class="title-container">
+    <el-card class="box-card" >
+      <div class="title-container"><h3 class="title">小 文 云 盘</h3>
         <h3 class="title">登录</h3>
       </div>
 
@@ -69,20 +91,20 @@
           type="primary"
           style="width:31.5%;margin-bottom:30px;"
           @click.native.prevent="handleLogin"
-        >Login</el-button>
+        >登录</el-button>
 
         <el-button
           :loading="loading"
           type="primary"
           style="width:31.5%;margin-bottom:30px;center"
           @click="dialogFormVisible = true"
-        >Registry</el-button>
+        >注册</el-button>
         <el-button
           :loading="loading"
           type="primary"
           style="width:31.5%;margin-bottom:30px;"
           @click="repasswordFormVisible = true"
-        >RePassword</el-button>
+        >重置密码</el-button>
 
         <el-dialog title="注册新账号" :visible.sync="dialogFormVisible">
           <el-form :model="registryForm">
@@ -151,6 +173,7 @@
           </div>
         </el-dialog>
       </div>
+      </el-card>
     </el-form>
 
     <!-- <el-dialog title="Or connect with" :visible.sync="showDialog">
@@ -160,6 +183,8 @@
       <br />
       <social-sign />
     </el-dialog>-->
+    
+
   </div>
 </template>
 
@@ -168,7 +193,7 @@ import { validUsername } from "@/utils/validate";
 import SocialSign from "./components/SocialSignin";
 import { Message } from "element-ui";
 import { resgitryUser, rePasswordByColor } from "@/api/hadoop";
-
+import img from '@/assets/TIM截图20200731204828.jpg'   
 export default {
   name: "Login",
   components: { SocialSign },
@@ -188,6 +213,7 @@ export default {
       }
     };
     return {
+      img:img,
       dialogFormVisible: false,
       repasswordFormVisible: false,
       loginForm: {
@@ -403,8 +429,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;
-$light_gray: #fff;
-$cursor: #fff;
+$light_gray: rgb(22, 21, 21);
+$cursor: rgb(20, 5, 5);
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input:not(.input1) input:not {
@@ -412,6 +438,11 @@ $cursor: #fff;
   }
 }
 
+ .lizi{
+    width: 100%;
+        height: calc(100% - 100px);
+         position: absolute;    
+ }
 /* reset element-ui css */
 .login-container {
   .el-input:not(.input1) {
@@ -465,11 +496,15 @@ $cursor: #fff;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
-
+.box-card{
+  opacity:0.80;
+}
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  // C:\Users\Nidaozi\Desktop\hdfsvue\vue-element-admin\src\assets\TIM截图20200731204828.jpg
+   background: url("~@/assets/timg.jpeg") center center no-repeat;
   overflow: hidden;
 
   .login-form {
@@ -506,7 +541,7 @@ $light_gray: #eee;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
+      color: black;
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;

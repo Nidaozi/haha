@@ -73,13 +73,13 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/tab',
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        path: 'tab',
+        component: () => import('@/views/tab/index'),
+        name: '云盘主界面',
+        meta: { title: '云盘主界面', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -108,20 +108,20 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-  {
-    path: '/profile',
-    component: Layout,
-    redirect: '/profile/index',
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
-      }
-    ]
-  }
+  // {
+  //   path: '/profile',
+  //   component: Layout,
+  //   redirect: '/profile/index',
+  //   hidden: true,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/profile/index'),
+  //       name: 'Profile',
+  //       meta: { title: 'Profile', icon: 'user', noCache: true }
+  //     }
+  //   ]
+  // }
 ]
 
 /**
@@ -171,19 +171,7 @@ export const asyncRoutes = [
   //   ]
   // },
 
-  // {
-  //   path: '/icon',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/icons/index'),
-  //       name: 'Icons',
-  //       meta: { title: 'Icons', icon: 'icon', noCache: true }
-  //     }
-  //   ]
-  // },
-
+ 
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
   // chartsRouter,
@@ -223,14 +211,14 @@ export const asyncRoutes = [
   // },
 
   {
-    path: '/tab',
+    path: '/documentation',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/tab/index'),
+        component: () => import('@/views/documentation/index'),
         name: 'Tab',
-        meta: { title: '网盘', icon: 'tab' }
+        meta: { title: '个人网盘', icon: 'tab' }
       }
     ]
   },
@@ -246,6 +234,19 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: '回收站',
+        meta: { title: '回收站', icon: 'skill', noCache: true }
+      }
+    ]
+  },
+
   // {
   //   path: '/error',
   //   component: Layout,

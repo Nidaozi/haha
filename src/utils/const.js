@@ -1,2 +1,2 @@
-export const  HOST_PROT = 'http://10.33.14.110:8090'
+export const  HOST_PROT = 'http://10.34.14.27:8090'
 
